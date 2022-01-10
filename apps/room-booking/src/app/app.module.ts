@@ -4,10 +4,28 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { MenuComponent } from './menu/menu.component';
+import { CalendarComponent } from './calendar/calendar.component';
+import { RoomsComponent } from './admin/rooms/rooms.component';
+import { UsersComponent } from './admin/users/users.component';
+import { AppRoutingModule } from './app-routing.module';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 @NgModule({
-  declarations: [AppComponent],
-  imports: [BrowserModule, HttpClientModule, FontAwesomeModule],
+  declarations: [
+    AppComponent,
+    MenuComponent,
+    CalendarComponent,
+    RoomsComponent,
+    UsersComponent,
+    PageNotFoundComponent,
+  ],
+  imports: [
+    BrowserModule,
+    HttpClientModule,
+    FontAwesomeModule,
+    AppRoutingModule,
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })
