@@ -1,1 +1,36 @@
-<p>rooms works!</p>
+<div class="container-fluid">
+  <h2>Rooms Admin</h2>
+
+  <a class="btn btn-primary mb-3">
+    Add
+  </a>
+
+  <div class="row">
+    <div class="col-6">
+      <table class="table">
+        <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let room of rooms">
+          <td>{{ room.id }}</td>
+          <td>{{ room.name }}</td>
+          <td>
+            <button type="button"
+                    class="btn btn-outline-secondary btn-sm">
+              View
+            </button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-6">
+      Details...
+    </div>
+  </div>
+</div>

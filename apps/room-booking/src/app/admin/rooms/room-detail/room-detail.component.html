@@ -1,0 +1,32 @@
+<div class="room-detail">
+  <h3>Room Detail</h3>
+  <a class="btn btn-primary btn-sm">
+    Edit
+  </a>
+  <a class="btn btn-danger btn-sm">
+    Delete
+  </a>
+
+  <table>
+    <tr>
+      <td>ID</td>
+      <td>{{ room.id }}</td>
+    </tr>
+    <tr>
+      <td>Name</td>
+      <td>{{ room.name }}</td>
+    </tr>
+    <tr>
+      <td>Location</td>
+      <td>{{ room.location }}</td>
+    </tr>
+  </table>
+
+  <h5>This room can accomodate:</h5>
+  <table>
+    <tr *ngFor="let capacity of room.capacities">
+      <td>{{ capacity.layout }}</td>
+      <td>{{ capacity.capacity }}</td>
+    </tr>
+  </table>
+</div>
