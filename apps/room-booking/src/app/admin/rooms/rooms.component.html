@@ -21,7 +21,8 @@
           <td>{{ room.name }}</td>
           <td>
             <button type="button"
-                    class="btn btn-outline-secondary btn-sm">
+                    class="btn btn-outline-secondary btn-sm"
+                    (click)="viewRoom(room.id)">
               View
             </button>
           </td>
@@ -30,7 +31,10 @@
       </table>
     </div>
     <div class="col-6">
-      Details...
+      <rbg-room-detail
+        *ngIf="selectedRoom"
+        [room]="selectedRoom"
+      ></rbg-room-detail>
     </div>
   </div>
 </div>

@@ -26,4 +26,8 @@ export class DataService {
       },
     ];
   }
+
+  findById(roomId: number): IRoom | undefined {
+    return this.rooms.find(room => room.id === roomId)
+  }
 }
