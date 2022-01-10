@@ -1,0 +1,12 @@
+.row-striped {
+  padding: 15px 0;
+
+  &:nth-of-type(odd) {
+    background-color: #efefef;
+    border-left: 4px #000 solid;
+  }
+  &:nth-of-type(even) {
+    background-color: #fff;
+    border-left: 4px #efefef solid;
+  }
+}
