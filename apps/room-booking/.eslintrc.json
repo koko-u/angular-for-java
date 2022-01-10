@@ -8,12 +8,14 @@
         "plugin:@nrwl/nx/angular",
         "plugin:@angular-eslint/template/process-inline-templates"
       ],
+      "plugins": ["@ngneat/reactive-forms"],
       "rules": {
+        "@ngneat/reactive-forms/no-angular-forms-imports": "error",
         "@angular-eslint/directive-selector": [
           "error",
           {
             "type": "attribute",
-            "prefix": "angularForJava",
+            "prefix": "rbg",
             "style": "camelCase"
           }
         ],
@@ -21,7 +23,7 @@
           "error",
           {
             "type": "element",
-            "prefix": "angular-for-java",
+            "prefix": "rbg",
             "style": "kebab-case"
           }
         ]

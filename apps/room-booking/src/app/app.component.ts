@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Message } from '@angular-for-java/api-interfaces';
 
 @Component({
-  selector: 'angular-for-java-root',
+  selector: 'rbg-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })

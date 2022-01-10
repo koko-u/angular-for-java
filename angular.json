@@ -72,7 +72,7 @@
       "projectType": "application",
       "root": "apps/room-booking",
       "sourceRoot": "apps/room-booking/src",
-      "prefix": "angular-for-java",
+      "prefix": "rbg",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
