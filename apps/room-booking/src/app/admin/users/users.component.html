@@ -1,7 +1,8 @@
 <div class="container-fluid">
   <h2>Users Admin</h2>
 
-  <a class="btn btn-primary mb-3">
+  <a class="btn btn-primary mb-3"
+     (click)="onAddClick()">
     Add
   </a>
 
@@ -33,6 +34,7 @@
     <div class="col-6" [ngSwitch]="action$ | async">
       <rbg-user-detail *ngSwitchCase="'view'"></rbg-user-detail>
       <rbg-user-edit   *ngSwitchCase="'edit'"></rbg-user-edit>
+      <rbg-create-user *ngSwitchCase="'create'"></rbg-create-user>
     </div>
   </div>
 </div>

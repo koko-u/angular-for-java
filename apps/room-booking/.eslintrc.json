@@ -10,7 +10,7 @@
       ],
       "plugins": ["@ngneat/reactive-forms"],
       "rules": {
-        "@ngneat/reactive-forms/no-angular-forms-imports": "error",
+//        "@ngneat/reactive-forms/no-angular-forms-imports": "error",
         "@angular-eslint/directive-selector": [
           "error",
           {

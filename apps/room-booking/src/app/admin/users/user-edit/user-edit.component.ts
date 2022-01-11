@@ -7,6 +7,7 @@ import { userId } from '../shared';
 import { FormControl, FormGroup } from '@ngneat/reactive-forms';
 import { Validators } from '@angular/forms';
 import { View } from '../../../models/action.model';
+import { isNotEmptyValidator } from '../../../validators/is-not-empty.validator';
 
 @Component({
   selector: 'rbg-user-edit',
@@ -19,7 +20,10 @@ export class UserEditComponent implements OnInit {
   nameErrorMessage$!: Observable<string | undefined>;
 
   editForm = new FormGroup({
-    name: new FormControl<string>('', [Validators.required]),
+    name: new FormControl<string>('', [
+      Validators.required,
+      isNotEmptyValidator,
+    ]),
   });
 
   constructor(
@@ -48,15 +52,18 @@ export class UserEditComponent implements OnInit {
     );
 
     this.nameErrorMessage$ = combineLatest([
-      this.editForm.touch$,
+      this.editForm.controls.name.touch$,
       this.editForm.controls.name.errors$,
     ]).pipe(
+      tap(([touch, errors]) => console.log(errors)),
       map(([touch, errors]) => {
-        if (touch) {
-          if (errors) {
+        if (touch && errors) {
+          if (errors['required']) {
             return 'Name is required';
+          } else if (errors['isNotEmpty']) {
+            return 'Name should not be empty';
           } else {
-            return undefined;
+            return 'Name is something wrong';
           }
         } else {
           return undefined;

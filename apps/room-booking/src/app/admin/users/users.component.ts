@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { DataService } from '../../services/data/data.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map, Observable } from 'rxjs';
-import { Action, View } from '../../models/action.model';
+import { Action, Create, View } from '../../models/action.model';
 import { action } from './shared';
 
 @Component({
@@ -31,6 +31,13 @@ export class UsersComponent implements OnInit {
     await this.router.navigate([], {
       relativeTo: this.route,
       queryParams: { userId: userId, action: View },
+    });
+  }
+
+  async onAddClick() {
+    await this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { action: Create },
     });
   }
 }
