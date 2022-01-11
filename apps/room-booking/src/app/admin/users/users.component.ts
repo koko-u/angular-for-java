@@ -1,21 +1,10 @@
 import { UserInterface } from '@angular-for-java/api-interfaces';
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { DataService } from '../../services/data/data.service';
-import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { map, Observable, of, switchMap } from 'rxjs';
-
-const userId = (paramMap: ParamMap): number | undefined => {
-  if (paramMap.has('userId')) {
-    const userId = Number(paramMap.get('userId'));
-    if (isNaN(userId)) {
-      return undefined;
-    } else {
-      return userId;
-    }
-  } else {
-    return undefined;
-  }
-};
+import { ActivatedRoute, Router } from '@angular/router';
+import { map, Observable } from 'rxjs';
+import { Action, View } from '../../models/action.model';
+import { action } from './shared';
 
 @Component({
   selector: 'rbg-users',
@@ -25,7 +14,7 @@ const userId = (paramMap: ParamMap): number | undefined => {
 })
 export class UsersComponent implements OnInit {
   users$!: Observable<UserInterface.IUser[]>;
-  selectedUser$!: Observable<UserInterface.IUser | undefined>;
+  action$!: Observable<Action>;
 
   constructor(
     private dataService: DataService,
@@ -35,22 +24,13 @@ export class UsersComponent implements OnInit {
 
   ngOnInit(): void {
     this.users$ = this.dataService.getAllUsers();
-    this.selectedUser$ = this.route.queryParamMap.pipe(
-      map(userId),
-      switchMap((userId) => {
-        if (userId) {
-          return this.dataService.findUserById(userId);
-        } else {
-          return of(undefined);
-        }
-      })
-    );
+    this.action$ = this.route.queryParamMap.pipe(map(action));
   }
 
-  viewUser(userId: number) {
-    this.router.navigate([], {
+  async viewUser(userId: number) {
+    await this.router.navigate([], {
       relativeTo: this.route,
-      queryParams: { userId: userId },
+      queryParams: { userId: userId, action: View },
     });
   }
 }

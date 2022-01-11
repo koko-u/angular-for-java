@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { RoomInterface, UserInterface } from '@angular-for-java/api-interfaces';
-import { Observable, of } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -26,6 +26,16 @@ export class DataService {
   }
   findUserById(userId: number): Observable<UserInterface.IUser | undefined> {
     return of(this._users.find((user) => user.id === userId));
+  }
+
+  updateUser(userId: number, name: string): Observable<UserInterface.IUser> {
+    const user = this._users.find((u) => u.id === userId);
+    if (user) {
+      user.name = name;
+      return of(user);
+    } else {
+      return EMPTY;
+    }
   }
 
   private createMockRooms(): RoomInterface.IRoom[] {

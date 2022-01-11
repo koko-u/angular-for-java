@@ -1,0 +1,42 @@
+<div class="user-edit" *ngIf="user$ | async as user">
+  <h3>Edit User</h3>
+
+  <form (ngSubmit)="onSubmit(user.id)" [formGroup]="editForm">
+    <div class="row">
+      <label for="name"
+             class="col-sm-2 col-form-label">
+        Name
+      </label>
+      <div class="col-sm-10">
+        <input type="text"
+               class="form-control"
+               [class.is-invalid]="nameErrorMessage$ | async"
+               aria-describedby="invalid-name-feedback"
+               id="name"
+               formControlName="name">
+      </div>
+    </div>
+    <div class="row" *ngIf="nameErrorMessage$ | async as errorMessage">
+      <div class="col-sm-10 offset-sm-2 invalid-feedback"
+           [ngStyle]="{ display: 'block' }"
+           id="invalid-name-feedback">
+        {{ errorMessage }}
+      </div>
+    </div>
+
+    <div class="row mt-3">
+      <div class="col-auto">
+        <button class="btn btn-primary">
+          Save
+        </button>
+      </div>
+      <div class="col-auto">
+        <button class="btn btn-outline-secondary"
+                (click)="onCancel()">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
+

@@ -1,6 +1,7 @@
-<div class="user-detail">
+<div class="user-detail" *ngIf="user$ | async as user">
   <h3>User Detail</h3>
-  <a class="btn btn-primary btn-sm me-1">
+  <a class="btn btn-primary btn-sm me-1"
+     (click)="onEditClick()">
     Edit
   </a>
   <a class="btn btn-danger btn-sm ms-1">

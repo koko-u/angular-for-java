@@ -30,11 +30,9 @@
         </tbody>
       </table>
     </div>
-    <div class="col-6">
-      <rbg-user-detail
-        *ngIf="selectedUser$ | async as selectedUser"
-        [user]="selectedUser"
-      ></rbg-user-detail>
+    <div class="col-6" [ngSwitch]="action$ | async">
+      <rbg-user-detail *ngSwitchCase="'view'"></rbg-user-detail>
+      <rbg-user-edit   *ngSwitchCase="'edit'"></rbg-user-edit>
     </div>
   </div>
 </div>
