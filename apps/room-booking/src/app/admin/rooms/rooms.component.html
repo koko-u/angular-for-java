@@ -16,7 +16,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let room of rooms">
+        <tr *ngFor="let room of rooms$ |async ">
           <td>{{ room.id }}</td>
           <td>{{ room.name }}</td>
           <td>
@@ -32,7 +32,7 @@
     </div>
     <div class="col-6">
       <rbg-room-detail
-        *ngIf="selectedRoom"
+        *ngIf="selectedRoom$ | async as selectedRoom"
         [room]="selectedRoom"
       ></rbg-room-detail>
     </div>

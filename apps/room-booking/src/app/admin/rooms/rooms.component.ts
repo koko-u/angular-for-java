@@ -2,7 +2,7 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { DataService } from '../../services/data/data.service';
 import { RoomInterface } from '@angular-for-java/api-interfaces';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { map, tap } from 'rxjs';
+import { concatMap, map, Observable, of, switchMap, tap } from 'rxjs';
 
 const roomId = (queryParam: ParamMap): number | undefined => {
   if (queryParam.has('roomId')) {
@@ -24,9 +24,8 @@ const roomId = (queryParam: ParamMap): number | undefined => {
   changeDetection: ChangeDetectionStrategy.Default,
 })
 export class RoomsComponent implements OnInit {
-  rooms!: RoomInterface.IRoom[];
-
-  selectedRoom: RoomInterface.IRoom | undefined;
+  rooms$!: Observable<RoomInterface.IRoom[]>;
+  selectedRoom$!: Observable<RoomInterface.IRoom | undefined>;
 
   constructor(
     private dataService: DataService,
@@ -35,14 +34,17 @@ export class RoomsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.rooms = this.dataService.rooms;
-    this.route.queryParamMap.pipe(map(roomId)).subscribe((roomId) => {
-      if (roomId) {
-        this.selectedRoom = this.dataService.findRoomById(roomId);
-      } else {
-        this.selectedRoom = undefined;
-      }
-    });
+    this.rooms$ = this.dataService.getAllRooms();
+    this.selectedRoom$ = this.route.queryParamMap.pipe(
+      map(roomId),
+      switchMap((roomId) => {
+        if (roomId) {
+          return this.dataService.findRoomById(roomId);
+        } else {
+          return of(undefined);
+        }
+      })
+    );
   }
 
   async viewRoom(roomId: number) {

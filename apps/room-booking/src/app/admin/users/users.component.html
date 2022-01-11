@@ -16,7 +16,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let user of users">
+        <tr *ngFor="let user of users$ | async">
           <td>{{ user.id }}</td>
           <td>{{ user.name }}</td>
           <td>
@@ -32,7 +32,7 @@
     </div>
     <div class="col-6">
       <rbg-user-detail
-        *ngIf="selectedUser"
+        *ngIf="selectedUser$ | async as selectedUser"
         [user]="selectedUser"
       ></rbg-user-detail>
     </div>

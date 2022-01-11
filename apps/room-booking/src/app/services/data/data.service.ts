@@ -1,23 +1,31 @@
 import { Injectable } from '@angular/core';
 import { RoomInterface, UserInterface } from '@angular-for-java/api-interfaces';
+import { Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DataService {
-  rooms: RoomInterface.IRoom[];
-  users: UserInterface.IUser[];
+  private _rooms: RoomInterface.IRoom[];
+  private _users: UserInterface.IUser[];
 
   constructor() {
-    this.rooms = this.createMockRooms();
-    this.users = this.createMockUsers();
+    this._rooms = this.createMockRooms();
+    this._users = this.createMockUsers();
   }
 
-  findRoomById(roomId: number): RoomInterface.IRoom | undefined {
-    return this.rooms.find((room) => room.id === roomId);
+  getAllRooms(): Observable<RoomInterface.IRoom[]> {
+    return of(this._rooms);
   }
-  findUserById(userId: number): UserInterface.IUser | undefined {
-    return this.users.find((user) => user.id === userId);
+  getAllUsers(): Observable<UserInterface.IUser[]> {
+    return of(this._users);
+  }
+
+  findRoomById(roomId: number): Observable<RoomInterface.IRoom | undefined> {
+    return of(this._rooms.find((room) => room.id === roomId));
+  }
+  findUserById(userId: number): Observable<UserInterface.IUser | undefined> {
+    return of(this._users.find((user) => user.id === userId));
   }
 
   private createMockRooms(): RoomInterface.IRoom[] {
