@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, Input } from "@angular/core"
-import { IRoom } from '@angular-for-java/api-interfaces';
+import { RoomInterface } from '@angular-for-java/api-interfaces';
 
 @Component({
   selector: 'rbg-room-detail[room]',
@@ -9,7 +9,7 @@ import { IRoom } from '@angular-for-java/api-interfaces';
 })
 export class RoomDetailComponent implements OnInit {
   @Input()
-  room!: IRoom;
+  room!: RoomInterface.IRoom;
 
   constructor() {}
 

@@ -1,1 +1,40 @@
-<p>users works!</p>
+<div class="container-fluid">
+  <h2>Users Admin</h2>
+
+  <a class="btn btn-primary mb-3">
+    Add
+  </a>
+
+  <div class="row">
+    <div class="col-6">
+      <table class="table">
+        <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let user of users">
+          <td>{{ user.id }}</td>
+          <td>{{ user.name }}</td>
+          <td>
+            <button type="button"
+                    class="btn btn-outline-secondary btn-sm"
+                    (click)="viewUser(user.id)">
+              View
+            </button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-6">
+      <rbg-user-detail
+        *ngIf="selectedUser"
+        [user]="selectedUser"
+      ></rbg-user-detail>
+    </div>
+  </div>
+</div>

@@ -1,21 +1,21 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { DataService } from '../../services/data/data.service';
-import { IRoom } from '@angular-for-java/api-interfaces';
-import { ActivatedRoute, ParamMap, Router } from "@angular/router"
-import { map, tap } from "rxjs"
+import { RoomInterface } from '@angular-for-java/api-interfaces';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { map, tap } from 'rxjs';
 
 const roomId = (queryParam: ParamMap): number | undefined => {
   if (queryParam.has('roomId')) {
-    const roomId = Number(queryParam.get('roomId'))
+    const roomId = Number(queryParam.get('roomId'));
     if (isNaN(roomId)) {
-      return undefined
+      return undefined;
     } else {
-      return roomId
+      return roomId;
     }
   } else {
-    return undefined
+    return undefined;
   }
-}
+};
 
 @Component({
   selector: 'rbg-rooms',
@@ -24,24 +24,31 @@ const roomId = (queryParam: ParamMap): number | undefined => {
   changeDetection: ChangeDetectionStrategy.Default,
 })
 export class RoomsComponent implements OnInit {
-  rooms!: IRoom[];
+  rooms!: RoomInterface.IRoom[];
 
-  selectedRoom: IRoom | undefined
+  selectedRoom: RoomInterface.IRoom | undefined;
 
-  constructor(private dataService: DataService, private route: ActivatedRoute, private router: Router) {}
+  constructor(
+    private dataService: DataService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.rooms = this.dataService.rooms;
-    this.route.queryParamMap.pipe(map(roomId)).subscribe(roomId => {
+    this.route.queryParamMap.pipe(map(roomId)).subscribe((roomId) => {
       if (roomId) {
-        this.selectedRoom = this.dataService.findById(roomId)
+        this.selectedRoom = this.dataService.findRoomById(roomId);
       } else {
-        this.selectedRoom = undefined
+        this.selectedRoom = undefined;
       }
-    })
+    });
   }
 
   async viewRoom(roomId: number) {
-    await this.router.navigate([], { relativeTo: this.route, queryParams: { roomId: roomId } })
+    await this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { roomId: roomId },
+    });
   }
 }

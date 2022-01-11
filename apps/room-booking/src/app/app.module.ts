@@ -11,6 +11,7 @@ import { UsersComponent } from './admin/users/users.component';
 import { AppRoutingModule } from './app-routing.module';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { RoomDetailComponent } from './admin/rooms/room-detail/room-detail.component';
+import { UserDetailComponent } from './admin/users/user-detail/user-detail.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { RoomDetailComponent } from './admin/rooms/room-detail/room-detail.compo
     UsersComponent,
     PageNotFoundComponent,
     RoomDetailComponent,
+    UserDetailComponent,
   ],
   imports: [
     BrowserModule,
