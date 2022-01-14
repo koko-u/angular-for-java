@@ -3,7 +3,7 @@ import { UserInterface } from '@angular-for-java/api-interfaces';
 import { DataService } from '../../../services/data/data.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { combineLatest, map, Observable, of, switchMap, tap } from 'rxjs';
-import { userId } from '../shared';
+import { pickParam } from '../../../shared';
 import { FormControl, FormGroup } from '@ngneat/reactive-forms';
 import { Validators } from '@angular/forms';
 import { View } from '../../../models/action.model';
@@ -34,7 +34,7 @@ export class UserEditComponent implements OnInit {
 
   ngOnInit(): void {
     this.user$ = this.route.queryParamMap.pipe(
-      map(userId),
+      map(pickParam('userId')),
       switchMap((userId) => {
         if (userId) {
           return this.dataService.findUserById(userId);
@@ -55,7 +55,6 @@ export class UserEditComponent implements OnInit {
       this.editForm.controls.name.touch$,
       this.editForm.controls.name.errors$,
     ]).pipe(
-      tap(([touch, errors]) => console.log(errors)),
       map(([touch, errors]) => {
         if (touch && errors) {
           if (errors['required']) {

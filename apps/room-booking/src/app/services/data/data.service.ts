@@ -37,6 +37,19 @@ export class DataService {
       return EMPTY;
     }
   }
+  createUser(name: string, password: string): Observable<UserInterface.IUser> {
+    const maxId = this._users.reduce((acc, user) => {
+      return user.id > acc ? user.id : acc;
+    }, 0);
+    const user = {
+      id: maxId + 1,
+      name,
+    };
+    this._users.push(user);
+    return of(user);
+  }
+
+  updateRoom(roomId: number, room: Omit<RoomInterface.IRoom, 'id'>) {}
 
   private createMockRooms(): RoomInterface.IRoom[] {
     return [
@@ -68,17 +81,5 @@ export class DataService {
         name: 'Edgar Watkins',
       },
     ];
-  }
-
-  createUser(name: string, password: string): Observable<UserInterface.IUser> {
-    const maxId = this._users.reduce((acc, user) => {
-      return user.id > acc ? user.id : acc;
-    }, 0);
-    const user = {
-      id: maxId + 1,
-      name,
-    };
-    this._users.push(user);
-    return of(user);
   }
 }

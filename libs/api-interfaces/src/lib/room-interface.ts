@@ -13,5 +13,6 @@ export interface ILayoutCapacity {
 export const Theater = 'Theater' as const;
 export const UShape = 'U-Shape' as const;
 export const Board = 'Board Meeting' as const;
+export const Layouts = [Theater, UShape, Board] as const;
 
-export type Layout = typeof Theater | typeof UShape | typeof Board;
+export type Layout = typeof Layouts[number];

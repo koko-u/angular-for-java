@@ -1,21 +1,10 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { DataService } from '../../services/data/data.service';
 import { RoomInterface } from '@angular-for-java/api-interfaces';
-import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { concatMap, map, Observable, of, switchMap, tap } from 'rxjs';
-
-const roomId = (queryParam: ParamMap): number | undefined => {
-  if (queryParam.has('roomId')) {
-    const roomId = Number(queryParam.get('roomId'));
-    if (isNaN(roomId)) {
-      return undefined;
-    } else {
-      return roomId;
-    }
-  } else {
-    return undefined;
-  }
-};
+import { ActivatedRoute, Router } from '@angular/router';
+import { map, Observable } from 'rxjs';
+import { Action, Actions, Create, Edit, View } from '../../models/action.model';
+import { action } from '../../shared';
 
 @Component({
   selector: 'rbg-rooms',
@@ -25,7 +14,11 @@ const roomId = (queryParam: ParamMap): number | undefined => {
 })
 export class RoomsComponent implements OnInit {
   rooms$!: Observable<RoomInterface.IRoom[]>;
-  selectedRoom$!: Observable<RoomInterface.IRoom | undefined>;
+  action$!: Observable<Action>;
+
+  view = View;
+  create = Create;
+  edit = Edit;
 
   constructor(
     private dataService: DataService,
@@ -35,22 +28,20 @@ export class RoomsComponent implements OnInit {
 
   ngOnInit(): void {
     this.rooms$ = this.dataService.getAllRooms();
-    this.selectedRoom$ = this.route.queryParamMap.pipe(
-      map(roomId),
-      switchMap((roomId) => {
-        if (roomId) {
-          return this.dataService.findRoomById(roomId);
-        } else {
-          return of(undefined);
-        }
-      })
-    );
+    this.action$ = this.route.queryParamMap.pipe(map(action));
   }
 
   async viewRoom(roomId: number) {
     await this.router.navigate([], {
       relativeTo: this.route,
-      queryParams: { roomId: roomId },
+      queryParams: { roomId: roomId, action: View },
+    });
+  }
+
+  async createRoom() {
+    await this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { action: Create },
     });
   }
 }

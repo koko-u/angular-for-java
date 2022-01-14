@@ -1,6 +1,6 @@
-<div class="room-detail">
+<div class="room-detail" *ngIf="room$ | async as room">
   <h3>Room Detail</h3>
-  <a class="btn btn-primary btn-sm me-1">
+  <a class="btn btn-primary btn-sm me-1" (click)="onEditRoom()">
     Edit
   </a>
   <a class="btn btn-danger btn-sm ms-1">

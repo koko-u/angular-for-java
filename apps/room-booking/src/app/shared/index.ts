@@ -1,18 +1,21 @@
 import { ParamMap } from '@angular/router';
-import { Action, Actions, View } from '../../../models/action.model';
+import { Action, Actions, View } from '../models/action.model';
 
-export const userId = (paramMap: ParamMap): number | undefined => {
-  if (paramMap.has('userId')) {
-    const userId = Number(paramMap.get('userId'));
-    if (isNaN(userId)) {
-      return undefined;
+export const pickParam = (name: string) => {
+  return (paramMap: ParamMap): number | undefined => {
+    if (paramMap.has(name)) {
+      const userId = Number(paramMap.get(name));
+      if (isNaN(userId)) {
+        return undefined;
+      } else {
+        return userId;
+      }
     } else {
-      return userId;
+      return undefined;
     }
-  } else {
-    return undefined;
-  }
+  };
 };
+
 export const action = (paramMap: ParamMap): Action => {
   const defaultAction: Action = View;
 

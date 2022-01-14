@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { UserInterface } from '@angular-for-java/api-interfaces';
 import { ActivatedRoute, Router } from '@angular/router';
-import { map, Observable, of, switchMap, tap } from 'rxjs';
-import { userId } from '../shared';
+import { map, Observable, of, switchMap } from 'rxjs';
+import { pickParam } from '../../../shared';
 import { DataService } from '../../../services/data/data.service';
 
 @Component({
@@ -21,7 +21,7 @@ export class UserDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.user$ = this.route.queryParamMap.pipe(
-      map(userId),
+      map(pickParam('userId')),
       switchMap((userId) => {
         if (userId) {
           return this.dataService.findUserById(userId);

@@ -4,7 +4,7 @@ import { DataService } from '../../services/data/data.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map, Observable } from 'rxjs';
 import { Action, Create, View } from '../../models/action.model';
-import { action } from './shared';
+import { action } from '../../shared';
 
 @Component({
   selector: 'rbg-users',

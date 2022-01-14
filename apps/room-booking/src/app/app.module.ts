@@ -15,6 +15,8 @@ import { UserDetailComponent } from './admin/users/user-detail/user-detail.compo
 import { UserEditComponent } from './admin/users/user-edit/user-edit.component';
 import { CreateUserComponent } from './admin/users/create-user/create-user.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { RoomEditComponent } from './admin/rooms/room-edit/room-edit.component';
+import { CreateRoomComponent } from './admin/rooms/create-room/create-room.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +30,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     UserDetailComponent,
     UserEditComponent,
     CreateUserComponent,
+    RoomEditComponent,
+    CreateRoomComponent,
   ],
   imports: [
     BrowserModule,
