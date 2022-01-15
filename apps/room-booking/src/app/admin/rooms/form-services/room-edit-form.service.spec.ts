@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { RoomEditFormService } from './room-edit-form.service';
+import { RoomFormService } from './room-form.service';
 
 describe('RoomEditFormService', () => {
-  let service: RoomEditFormService;
+  let service: RoomFormService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(RoomEditFormService);
+    service = TestBed.inject(RoomFormService);
   });
 
   it('should be created', () => {

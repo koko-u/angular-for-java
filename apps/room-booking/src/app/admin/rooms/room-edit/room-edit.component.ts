@@ -4,7 +4,7 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { map, Observable, of, Subscription, switchMap } from 'rxjs';
+import { EMPTY, map, Observable, of, Subscription, switchMap } from 'rxjs';
 import { DataService } from '../../../services/data/data.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { pickParam } from '../../../shared';
@@ -13,15 +13,15 @@ import { View } from '../../../models/action.model';
 import {
   ErrorMessages,
   NoError,
-  RoomEditFormService,
-} from './room-edit-form.service';
+  RoomFormService,
+} from '../form-services/room-form.service';
 
 @Component({
   selector: 'rbg-room-edit',
   templateUrl: './room-edit.component.html',
   styleUrls: ['./room-edit.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [RoomEditFormService],
+  providers: [RoomFormService],
 })
 export class RoomEditComponent implements OnInit, OnDestroy {
   room$!: Observable<RoomInterface.IRoom | undefined>;
@@ -30,8 +30,10 @@ export class RoomEditComponent implements OnInit, OnDestroy {
   errorMessages: ErrorMessages = NoError;
   private errorMessagesSubscription: Subscription | undefined;
 
+  private updateRoomSubscription: Subscription | undefined;
+
   constructor(
-    public roomEdit: RoomEditFormService,
+    public roomEdit: RoomFormService,
     private dataService: DataService,
     private route: ActivatedRoute,
     private router: Router
@@ -56,13 +58,44 @@ export class RoomEditComponent implements OnInit, OnDestroy {
   }
   ngOnDestroy(): void {
     this.errorMessagesSubscription?.unsubscribe();
+    this.updateRoomSubscription?.unsubscribe();
   }
 
   onSubmit() {
-    console.log({ value: this.roomEdit.form.value });
+    if (this.roomEdit.form.invalid) return;
+
+    const formValue = this.roomEdit.form.value;
+    const capacities = RoomInterface.Layouts.map((layout, idx) => {
+      return {
+        layout,
+        capacity: formValue.capacities[idx],
+      } as RoomInterface.ILayoutCapacity;
+    });
+    this.updateRoomSubscription = this.route.queryParamMap
+      .pipe(
+        map(pickParam('roomId')),
+        switchMap((roomId) => {
+          if (roomId) {
+            return this.dataService.updateRoom(roomId, {
+              name: formValue.name,
+              location: formValue.location,
+              capacities,
+            });
+          } else {
+            return EMPTY;
+          }
+        })
+      )
+      .subscribe({
+        next: async () => await this.navigateToViewPage(),
+      });
   }
 
   async onCancel() {
+    await this.navigateToViewPage();
+  }
+
+  private async navigateToViewPage() {
     await this.router.navigate([], {
       relativeTo: this.route,
       queryParams: { action: View },

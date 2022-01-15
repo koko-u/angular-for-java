@@ -1,1 +1,101 @@
-<p>create-room works!</p>
+<h3>Create Room</h3>
+
+<form [formGroup]="roomCreate.form" (ngSubmit)="onSubmit()">
+  <!-- Name -->
+  <div class="row">
+    <label for="name"
+           class="col-sm-2 col-form-label">
+      Name
+    </label>
+    <div class="col-sm-10">
+      <input type="text"
+             class="form-control"
+             [class.is-invalid]="errorMessages['name']"
+             aria-describedby="invalid-name-feedback"
+             id="name"
+             formControlName="name">
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-10 offset-sm-2 invalid-feedback"
+         [ngStyle]="{ display: errorMessages['name'] ? 'block' : 'none' }"
+         id="invalid-name-feedback">
+      {{ errorMessages['name'] }}
+    </div>
+  </div>
+
+  <!-- Location -->
+  <div class="row mt-3">
+    <label for="location"
+           class="col-sm-2 col-form-label">
+      Location
+    </label>
+    <div class="col-sm-10">
+      <input type="text"
+             class="form-control"
+             [class.is-invalid]="errorMessages['location']"
+             aria-describedby="invalid-location-feedback"
+             id="location"
+             formControlName="location">
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-10 offset-sm-2 invalid-feedback"
+         [ngStyle]="{ display: errorMessages['location'] ? 'block' : 'none' }"
+         id="invalid-location-feedback">
+      {{ errorMessages['location'] }}
+    </div>
+  </div>
+
+  <h5 class="mt-5">This room can accomodate:</h5>
+
+  <!-- Layouts -->
+  <div class="mt-3">
+    <ng-container *ngFor="let layout of layouts; let i = index">
+
+      <div class="row mt-3">
+        <label for="layout-{{ i }}"
+               class="col-sm-3 col-form-label">
+          {{ layout }}
+        </label>
+        <div class="col-sm-9">
+          <input type="number"
+                 class="form-control"
+                 [class.is-invalid]="errorMessages['capacities'][i]"
+                 attr.aria-describedby="invalid-layout-feedback-{{i}}"
+                 id="layout-{{ i }}"
+                 [formControl]="roomCreate.getLayoutCapacityControl(layout)">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-9 offset-sm-3 invalid-feedback"
+             [ngStyle]="{ display: errorMessages['capacities'][i] ? 'block': 'none' }"
+             id="invalid-layout-feedback-{{ i }}">
+          {{ errorMessages['capacities'][i] }}
+        </div>
+      </div>
+
+    </ng-container>
+
+    <div class="row" *ngIf="errorMessages.crossCapacity">
+      <div class="col-sm-9 offset-sm-3 text-danger text-sm">
+        {{ errorMessages.crossCapacity }}
+      </div>
+    </div>
+  </div>
+
+
+
+  <div class="row mt-3">
+    <div class="col-auto">
+      <button type="submit" class="btn btn-primary">Create</button>
+    </div>
+    <div class="col-auto">
+      <button class="btn btn-outline-secondary" (click)="onCancel()">
+        Cancel
+      </button>
+    </div>
+  </div>
+
+</form>
+

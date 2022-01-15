@@ -10,8 +10,8 @@ export class DataService {
   private _users: UserInterface.IUser[];
 
   constructor() {
-    this._rooms = this.createMockRooms();
-    this._users = this.createMockUsers();
+    this._rooms = createMockRooms();
+    this._users = createMockUsers();
   }
 
   getAllRooms(): Observable<RoomInterface.IRoom[]> {
@@ -49,37 +49,79 @@ export class DataService {
     return of(user);
   }
 
-  updateRoom(roomId: number, room: Omit<RoomInterface.IRoom, 'id'>) {}
+  createRoom(
+    roomCreate: Omit<RoomInterface.IRoom, 'id'>
+  ): Observable<RoomInterface.IRoom> {
+    const maxId = this._rooms.reduce((id, room) => {
+      if (room.id > id) {
+        return room.id;
+      } else {
+        return id;
+      }
+    }, 0);
+    const capacities = roomCreate.capacities.filter(
+      (capacityLayout) => capacityLayout.capacity > 0
+    );
+    const room = {
+      id: maxId + 1,
+      name: roomCreate.name,
+      location: roomCreate.location,
+      capacities,
+    };
 
-  private createMockRooms(): RoomInterface.IRoom[] {
-    return [
-      {
-        id: 1,
-        name: 'First Room',
-        location: 'First Floor',
-        capacities: [
-          { layout: RoomInterface.Theater, capacity: 50 },
-          { layout: RoomInterface.UShape, capacity: 20 },
-        ],
-      },
-      {
-        id: 2,
-        name: 'Second Room',
-        location: 'Third Floor',
-        capacities: [{ layout: RoomInterface.Theater, capacity: 60 }],
-      },
-    ];
+    this._rooms.push(room);
+
+    return of(room);
   }
-  private createMockUsers(): UserInterface.IUser[] {
-    return [
-      {
-        id: 1,
-        name: 'Caroline Gibson',
-      },
-      {
-        id: 2,
-        name: 'Edgar Watkins',
-      },
-    ];
+
+  updateRoom(
+    roomId: number,
+    roomUpdate: Omit<RoomInterface.IRoom, 'id'>
+  ): Observable<RoomInterface.IRoom> {
+    const room = this._rooms.find((r) => r.id === roomId);
+    if (room) {
+      const capacities = roomUpdate.capacities.filter(
+        (capacityLayout) => capacityLayout.capacity > 0
+      );
+      room.name = roomUpdate.name;
+      room.location = roomUpdate.location;
+      room.capacities = capacities;
+
+      return of(room);
+    } else {
+      return EMPTY;
+    }
   }
+}
+
+function createMockRooms(): RoomInterface.IRoom[] {
+  return [
+    {
+      id: 1,
+      name: 'First Room',
+      location: 'First Floor',
+      capacities: [
+        { layout: RoomInterface.Theater, capacity: 50 },
+        { layout: RoomInterface.UShape, capacity: 20 },
+      ],
+    },
+    {
+      id: 2,
+      name: 'Second Room',
+      location: 'Third Floor',
+      capacities: [{ layout: RoomInterface.Theater, capacity: 60 }],
+    },
+  ];
+}
+function createMockUsers(): UserInterface.IUser[] {
+  return [
+    {
+      id: 1,
+      name: 'Caroline Gibson',
+    },
+    {
+      id: 2,
+      name: 'Edgar Watkins',
+    },
+  ];
 }
